@@ -41,11 +41,11 @@
           reader.releaseLock();
           break;
         }
-        result.value = value;
+        result.innerHTML = value;
       }
     });
 
-    if ("serial" in navigator) result.value = "Your browser supports Web Serial API!";
-    else result.value = "Your browser does not support Web Serial API, the latest version of Google Chrome is recommended!";
+    if ("serial" in navigator) result.innerHTML = "Your browser supports Web Serial API!";
+    else result.innerHTML = "Your browser does not support Web Serial API, the latest version of Google Chrome is recommended!";
   </script>
 </html>
