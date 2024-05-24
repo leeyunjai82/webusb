@@ -25,14 +25,11 @@
     const result = document.getElementById('result');
 
     document.getElementById('send').addEventListener('click', async () => {
-      console.log(command.value);
       await writer.write(command.value);
     });
     
     document.getElementById('connect').addEventListener('click', async () => { // 'async' 키워드를 추가하여 비동기 함수로 변경
       const port = await navigator.serial.requestPort();
-      console.log(port)
-
       // Wait for the serial port to open.
       await port.open({ baudRate: 9600 });
 
@@ -47,7 +44,7 @@
           reader.releaseLock();
           break;
         }
-        console.log(value);
+        result.value = value;
       }
     });
 
