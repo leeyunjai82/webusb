@@ -25,15 +25,27 @@
       await writer.write('#'+command.value+'!');
     });
     
-    document.getElementById('connect').addEventListener('click', async () => { // 'async' 키워드를 추가하여 비동기 함수로 변경
-      const port = await navigator.serial.requestPort();
+    document.getElementById('connect').addEventListener('click', async () => {
+
+
+/*
+       const filters = [
+        { usbVendorId: 0x2341, usbProductId: 0x0043 },
+        { usbVendorId: 0x2341, usbProductId: 0x0001 }
+      ];
+      
+      const port = await navigator.serial.requestPort({ filters });
+*/
+      const port = await navigator.serial.requestPort();      
+      const { productId, vendorId } = port.getInfo();
+      console.log(productId, vendorId);
+
       // Wait for the serial port to open.
       await port.open({ baudRate: 9600 });
 
       const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
       const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
 
-      // 직렬 장치에서 오는 데이터를 듣는다.
       while (true) {
         const { value, done } = await reader.read();
         if (done) {
@@ -41,8 +53,11 @@
           reader.releaseLock();
           break;
         }
-        result.innerHTML = value;
-        console.log(value);
+
+        if (value) {
+          result.innerHTML = value;
+          console.log(value);
+        }
       }
     });
 
