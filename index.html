@@ -12,15 +12,17 @@
    <br>
    <input type="text" id="command">
    <button id="send">Send</button>
+   <br>
+   <span id="result'></span>
   </body>
 
-    <script>
-
+  <script>
     const textEncoder = new TextEncoderStream();
     const textDecoder = new TextDecoderStream();
     const reader = textDecoder.readable.getReader();
     const writer = textEncoder.writable.getWriter();
     const command = document.getElementById('command');
+    const result = document.getElementById('result');
 
     document.getElementById('send').addEventListener('click', async () => {
       console.log(command.value);
@@ -51,5 +53,5 @@
 
     if ("serial" in navigator) alert("Your browser supports Web Serial API!");
     else alert("Your browser does not support Web Serial API, the latest version of Google Chrome is recommended!");
-    </script>  
+  </script>  
 </html>
