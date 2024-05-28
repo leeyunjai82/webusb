@@ -11,4 +11,4 @@ while True:
     if ch == '!':
       break
     data += ch
-  conn.write(f"#{data} - RECV!".encode('utf-8'))
+  conn.write(f"#{data} from RASP!".encode('utf-8'))
