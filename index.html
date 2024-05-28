@@ -55,10 +55,6 @@ print(s)
     <button onclick="runPython()">실행</button>
     <div id="output"></div>
 
-    <py-env>
-        - numpy
-    </py-env>
-
     <script>
         async function runPython() {
             const editor = document.getElementById('editor');
@@ -66,19 +62,18 @@ print(s)
             const outputElement = document.getElementById('output');
             outputElement.textContent = '';
 
+            // PyScript 인터프리터를 사용하여 Python 코드를 실행
             try {
-                // pyodide는 PyScript가 사용하는 Python 인터프리터입니다.
-                const pyodide = await loadPyodide();
-                // 코드를 실행하고 결과를 반환합니다.
-                const result = await pyodide.runPythonAsync(code);
+                const pyscript = await globalThis.pyscript; // PyScript 인터프리터를 가져옴
+                const result = await pyscript.interpreter.run(code);
                 outputElement.textContent = result;
             } catch (err) {
                 outputElement.textContent = err;
             }
         }
 
-        document.addEventListener('pyodideReady', () => {
-            console.log('Pyodide is ready');
+        document.addEventListener('pyscript/runtimeReady', () => {
+            console.log('PyScript runtime is ready');
         });
     </script>
 </body>
