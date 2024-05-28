@@ -17,7 +17,6 @@
   <script src="./static/index.js?ver=240528v1"></script>
 </html>
  -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,6 +30,11 @@
         }
         #output {
             white-space: pre-wrap;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+            height: 200px;
+            overflow: auto;
         }
     </style>
 </head>
@@ -51,16 +55,25 @@ print(s)
     <button onclick="runPython()">실행</button>
     <div id="output"></div>
 
-    <py-script id="pyscript" output="output"></py-script>
-
     <script>
-        function runPython() {
+        async function runPython() {
             const editor = document.getElementById('editor');
-            const pyscript = document.getElementById('pyscript');
             const code = editor.value;
-            pyscript.textContent = code;
-            pyscript.run();
+            const outputElement = document.getElementById('output');
+
+            try {
+                // pyodide는 PyScript가 사용하는 Python 인터프리터입니다.
+                await pyodide.loadPackage('micropip');
+                const result = await pyodide.runPythonAsync(code);
+                outputElement.textContent = result;
+            } catch (err) {
+                outputElement.textContent = err;
+            }
         }
+
+        document.addEventListener('pyodideReady', () => {
+            console.log('Pyodide is ready');
+        });
     </script>
 </body>
 </html>
