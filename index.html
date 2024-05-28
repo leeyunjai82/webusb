@@ -18,25 +18,49 @@
 </html>
  -->
 
-
- <html>
-  <head>
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-  </head>
-  <body>
-      <py-script>
+    <style>
+        #editor {
+            width: 100%;
+            height: 200px;
+        }
+        #output {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>PyScript Python Editor</h1>
+    <textarea id="editor">
 print("π를 계산해 봅시다:")
 def wallis(n):
     pi = 2
-    for i in range(1,n):
+    for i in range(1, n):
         pi *= 4 * i ** 2 / (4 * i ** 2 - 1)
     return pi
 
 pi = wallis(100000)
 s = f"π는 대략 {pi:.3f}입니다."
 print(s)
-      </py-script>
-  </body>
+    </textarea>
+    <button onclick="runPython()">실행</button>
+    <div id="output"></div>
+
+    <py-script id="pyscript" output="output"></py-script>
+
+    <script>
+        function runPython() {
+            const editor = document.getElementById('editor');
+            const pyscript = document.getElementById('pyscript');
+            const code = editor.value;
+            pyscript.textContent = code;
+            pyscript.run();
+        }
+    </script>
+</body>
 </html>
